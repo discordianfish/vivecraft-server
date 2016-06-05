@@ -2,7 +2,7 @@ FROM java:8
 
 MAINTAINER Johannes 'fish' Ziemke
 
-ENV SPIGOT_URL       https://ci.mcadmin.net/job/Spigot/lastSuccessfulBuild/artifact/spigot-1.9.4.jar
+ENV SPIGOT_URL       https://ci.mcadmin.net/userContent/archive/spigot/spigot-1.7.10-R0.1-SNAPSHOTBuild1646.jar
 ENV PROTOCOL_LIB_URL http://ci.dmulloy2.net/job/ProtocolLib/lastBuild/artifact/modules/ProtocolLib/target/ProtocolLib.jar
 ENV MINE_VIVE_URL    https://github.com/possi/MineVive/releases/download/v0.3/MineVive.jar
 ENV FRACTIONS_URL    https://dev.bukkit.org/media/files/919/916/Factions.jar
