@@ -8,8 +8,11 @@ ENV MINE_VIVE_URL    https://github.com/possi/MineVive/releases/download/v0.3/Mi
 ENV FRACTIONS_URL    https://dev.bukkit.org/media/files/919/916/Factions.jar
 ENV MCORE_URL        https://dev.bukkit.org/media/files/919/920/MassiveCore.jar
 ENV PROMETHEUS_URL   https://madoka.brage.info/release/prometheus-integration-1.0.1.jar
+ENV RWG_URL          https://cdn.minecraftmodarchive.org/Realistic%20World%20Gen/1.7.10/RWG-alpha-1.3.2.jar
+ENV DYNMAP_URL       http://dev.bukkit.org/media/files/888/859/dynmap-2.2.jar
 
-EXPOSE  25565 1234
+# 25565 = Minecraft, 1234 = Prometheus Metrics, 8123 = Dynmap
+EXPOSE  25565 1234 8123
 WORKDIR /var/lib/minecraft
 
 COPY spigot.yml .
@@ -22,6 +25,8 @@ RUN useradd -d /var/lib/minecraft minecraft \
     && curl -sSfLo /opt/minecraft/plugins/MineVive.jar              $MINE_VIVE_URL \
     && curl -sSfLo /opt/minecraft/plugins/MassiveCore.jar           $MCORE_URL \
     && curl -sSfLo /opt/minecraft/plugins/Fractions.jar             $FRACTIONS_URL \
+    && curl -sSfLo /opt/minecraft/plugins/RWG.jar                   $RWG_URL \
+    && curl -sSfLo /opt/minecraft/plugins/DynMap.jar                $DYNMAP_URL \
     && curl -sSfLo /opt/minecraft/plugins/PrometheusIntegration.jar $PROMETHEUS_URL
 
 # FIXME: Verify checksums
