@@ -38,4 +38,4 @@ RUN chown minecraft:minecraft spigot.yml && java -jar /opt/minecraft/spigot.jar 
 VOLUME /var/lib/minecraft
 USER   minecraft
 
-ENTRYPOINT [ "java", "-jar", "/opt/minecraft/spigot.jar" ]
+ENTRYPOINT [ "java", "-Xms1G", "-Xmx2G", "-d64", "-jar", "/opt/minecraft/spigot.jar" ]
