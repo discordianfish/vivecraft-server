@@ -4,13 +4,20 @@ MEM=$(grep MemTotal /proc/meminfo|sed 's/.*: *//;s/ kB$//')
 MEM_MAX=$(( $MEM / 1250 )) # Convert to MB and leave 25% memory available
 
 echo "Setting -Xmx${MEM_MAX}M"
+#  -XX:+DisableExplicitGC JVM devs are probably smarter than Minecraft devs
+#  -XX:+UseConcMarkSweepGC  # Enable CMS Collector instead of Throughput Collector
+#  -XX:+UseParNewGC         # Enable parallel young generation GC
+#  -XX:SurvivorRatio        # Smaller survivor space to save memory
+#  -XX:TargetSurvivorRatio  # Allow up to 90% s.s. usage to save memory
+#  -XX:+AggressiveOpts      # Enable upcoming minor optimizations
+#  -Djava.security.egd      # Use poor randomness to speed things up
 exec java \
   -Xmx${MEM_MAX}M \
-  -XX:+DisableExplicitGC \     # JVM devs are probably smarter than Minecraft devs
-  -XX:+UseConcMarkSweepGC \    # Enable CMS Collector instead of Throughput Collector
-  -XX:+UseParNewGC \           # Enable parallel young generation GC
-  -XX:SurvivorRatio=8 \        # Smaller survivor space to save memory
-  -XX:TargetSurvivorRatio=90 \ # Allow up to 90% s.s. usage to save memory
-  -XX:+AggressiveOpts \        # Enable upcoming minor optimizations
-  -Djava.security.egd=file:/dev/./urandom \ # Use poor randomness to speed things up
+  -XX:+DisableExplicitGC \
+  -XX:+UseConcMarkSweepGC \
+  -XX:+UseParNewGC \
+  -XX:SurvivorRatio=8 \
+  -XX:TargetSurvivorRatio=90 \
+  -XX:+AggressiveOpts \
+  -Djava.security.egd=file:/dev/./urandom \
   -jar /opt/minecraft/spigot.jar
