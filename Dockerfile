@@ -31,6 +31,7 @@ RUN useradd -d /var/lib/minecraft minecraft \
 
 # FIXME: Verify checksums
 
+COPY run /opt/minecraft/
 USER minecraft
 RUN chown minecraft:minecraft spigot.yml && java -jar /opt/minecraft/spigot.jar \
     && sed 's/.*eula=.*/eula=true/' -i eula.txt \
@@ -39,4 +40,4 @@ RUN chown minecraft:minecraft spigot.yml && java -jar /opt/minecraft/spigot.jar 
 VOLUME /var/lib/minecraft
 USER   minecraft
 
-ENTRYPOINT [ "java", "-Xms1G", "-Xmx2G", "-d64", "-jar", "/opt/minecraft/spigot.jar" ]
+ENTRYPOINT [ "/opt/minecraft/run" ]
