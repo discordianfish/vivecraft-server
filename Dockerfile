@@ -33,7 +33,8 @@ RUN useradd -d /var/lib/minecraft minecraft \
 
 USER minecraft
 RUN chown minecraft:minecraft spigot.yml && java -jar /opt/minecraft/spigot.jar \
-    && sed 's/.*eula=.*/eula=true/' -i eula.txt
+    && sed 's/.*eula=.*/eula=true/' -i eula.txt \
+    && ln -s /opt/minecraft/plugins/ . # Spigot is expecting plugs in jar root, not wd
 
 VOLUME /var/lib/minecraft
 USER   minecraft
