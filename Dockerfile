@@ -20,7 +20,7 @@ RUN useradd -d /var/lib/minecraft minecraft \
  && curl -sSfLo /opt/minecraft/spigot.jar $SPIGOT_URL
 
 COPY run /opt/minecraft/
-COPY spigot.yml .
+COPY . .
 RUN chown -R minecraft:minecraft /var/lib/minecraft
 
 USER minecraft
