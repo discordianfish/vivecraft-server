@@ -15,27 +15,24 @@ ENV DYNMAP_URL       http://dev.bukkit.org/media/files/888/859/dynmap-2.2.jar
 EXPOSE  25565 1234 8123
 WORKDIR /var/lib/minecraft
 
-COPY spigot.yml .
-
 RUN useradd -d /var/lib/minecraft minecraft \
-    && chown -R minecraft:minecraft /var/lib/minecraft \
-    && mkdir -p /opt/minecraft/plugins \
-    && curl -sSfLo /opt/minecraft/spigot.jar                        $SPIGOT_URL \
-    && curl -sSfLo /opt/minecraft/plugins/ProtocolLib.jar           $PROTOCOL_LIB_URL \
-    && curl -sSfLo /opt/minecraft/plugins/MineVive.jar              $MINE_VIVE_URL \
-    && curl -sSfLo /opt/minecraft/plugins/MassiveCore.jar           $MCORE_URL \
-    && curl -sSfLo /opt/minecraft/plugins/Fractions.jar             $FRACTIONS_URL \
-    && curl -sSfLo /opt/minecraft/plugins/RWG.jar                   $RWG_URL \
-    && curl -sSfLo /opt/minecraft/plugins/DynMap.jar                $DYNMAP_URL \
-    && curl -sSfLo /opt/minecraft/plugins/PrometheusIntegration.jar $PROMETHEUS_URL
-
-# FIXME: Verify checksums
+ && mkdir -p /opt/minecraft /var/lib/minecraft/plugins \
+ && curl -sSfLo /opt/minecraft/spigot.jar $SPIGOT_URL
 
 COPY run /opt/minecraft/
+COPY spigot.yml .
+RUN chown -R minecraft:minecraft /var/lib/minecraft
+
 USER minecraft
-RUN chown minecraft:minecraft spigot.yml && java -jar /opt/minecraft/spigot.jar \
-    && sed 's/.*eula=.*/eula=true/' -i eula.txt \
-    && ln -s /opt/minecraft/plugins/ . # Spigot is expecting plugs in jar root, not wd
+RUN curl -sSfLo plugins/ProtocolLib.jar              $PROTOCOL_LIB_URL \
+ && curl -sSfLo plugins/MineVive.jar              $MINE_VIVE_URL \
+ && curl -sSfLo plugins/MassiveCore.jar           $MCORE_URL \
+ && curl -sSfLo plugins/Fractions.jar             $FRACTIONS_URL \
+ && curl -sSfLo plugins/RWG.jar                   $RWG_URL \
+ && curl -sSfLo plugins/DynMap.jar                $DYNMAP_URL \
+ && curl -sSfLo plugins/PrometheusIntegration.jar $PROMETHEUS_URL \
+ && java -jar /opt/minecraft/spigot.jar \
+ && sed 's/.*eula=.*/eula=true/' -i eula.txt
 
 VOLUME /var/lib/minecraft
 USER   minecraft
